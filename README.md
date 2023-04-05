@@ -1,3 +1,95 @@
+# GamerPointsApp
+An app for organizing to-dos and rewarding yourself for hard work!
+
+To-Do list;
+
+## api
+
+[] Create the UML Diagrams for the app
+[] Write tests
+  [] api (* is optional)
+    [][] User Table
+      id, name, createdAt, email, password, salt, users(stretch, many, self-relation),tasks(many),role "Admin"
+    [][] Tasks Table
+      id, adminId(one), createdAt, task, 
+      startDate* (if null, will be ignored by bonus cell),
+      dueDate*(if null, will be added to monthly cell every month),
+      complete, completedOn, value, occurence {daily, weekly, monthly, bonus}
+    [][] Task can have one Admin
+    [][] Admin can have many tasks
+    C [][] Create Admin
+    U [][] Update Admin user's, name, email, password
+    D [][] Delete Admin 
+
+    
+BONUS REQUIRES a due date, Weekly REQUIREs a end-date
+    
+    C [][] Create single task
+    C [][] Create multiple tasks based on start date, due date, and occurence
+              daily, 12/1/2023 - 12/15/2023 --> generates 16 tasks, each with a start and end date on the day
+              weekly, 12/1/2023 - 12/31/2023 --> generates 4*7 tasks, start date is beginning of week, end is end of week.
+              monthly, null - null OR date - null --> generates 1 task, start date is createdAt, and end is end of current month
+              monthly 12/2023 - 5/2024 OR --> generates 6 monthly tasks with start date's on first of month, and enddates on last of month
+              bonus, null - 6/13/2023 --> generates a bonus task, start date is CreatedAt, and have a due date of 6/13
+              
+              
+    R [][] Query tasks
+    U [][] Mutate task complete: bool & completedOn: date fields
+    U [][] Mutate task complete: bool & completedOn: date fields
+    D [][] Delete tasks; can delete one with id
+        [][] delete all tasks with specific title, if complete is false
+    
+    # STRETCH:
+      [][] TrueUser Table
+         [][] make a 'user' role         
+      [][] User can have many Admins (https://www.prisma.io/docs/concepts/components/prisma-schema/relations/self-relations)
+      [][] Admin can have many Users
+      [][] an authenticated user can edit task complete & completedOn
+      [][] an Authorized Admin can create & edit tasks
+
+===========================      
+## web
+  [] web
+    [][] taskBox component
+        [] TB props
+          [] purpose; 0 = daily, 1 = weekly, 2 = monthly,3 = 'bonus'
+            >this also drives behavoir for what is taken from query, 
+              >0 is 'occurence = daily' and 'completed = false' and 'endDate = TBdate'
+              >1 is 'occurence = weekly' and 'completed = false' and 'endDate <= TBdate'
+              >2 is 'occurence = monthly' and 'completed = false' and 'endDate <= TBdate'
+              >3 is 'occurence = bonus' and 'completed = false' and 'endDate <= TBdate'  
+          [] data; result of cell's query
+          [] TBdate; a date representing the due date of the TB
+        [] TB contains;
+          [] h2 title
+          [] subtitle date of title(weekly; day of week, monthly; last day of month, bonus; nothing)
+          [] ol tasks
+            [] Task Component
+              [] task date; empty unless on bonus, then it's displayed beside each task
+              [] task complete represented with input, checkbox
+              [] task description
+                [] STRETCH; collapsed unless tapped on
+        
+    [][] weekly (& daily) cell
+      []weekly query; all tasks where occurence is weekly or daily due date <= end of this week
+      [] generates a taskBox for every day of the week, and end of week tasks
+        [] each taskbox has the results of the query
+    [][] non-weekly cell
+      [][] monthly query; all tasks where occurence is monthly, and start date >= first day of month, end date <= end of this month
+      [][] bonus query; all tasks where occurence is bonus tasks that start or end in current month (start >= month start, or end >= month end)
+      
+   ## general to-do   
+[] write public readme, with how to setup dev envoirment
+  [] setup commands
+  [] .env instructions
+  [] running commands & test commands
+  [] point of app
+  [] features
+  [] techstack and descions
+
+===========================
+<img width="758" alt="Screenshot 2023-04-04 at 6 09 30 PM" src="https://user-images.githubusercontent.com/80186785/229955728-6645241b-1538-4d40-9334-1241ad7eb391.png">
+
 # README
 
 Welcome to [RedwoodJS](https://redwoodjs.com)!
