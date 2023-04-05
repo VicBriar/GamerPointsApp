@@ -8,11 +8,33 @@ generator client {
   binaryTargets = "native"
 }
 
-// Define your own datamodels here and run `yarn redwood prisma migrate dev`
-// to create migrations for them and apply to your dev DB.
-// TODO: Please remove the following example:
-model UserExample {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
+
+model User {
+  id                  Int       @id @default(autoincrement())
+  name                String?
+  email               String    @unique
+  hashedPassword      String
+  salt                String
+  resetToken          String?
+  resetTokenExpiresAt DateTime?
+  tasks               Task[]
+  createdAt           DateTime  @default(now())
+}
+model Task {
+  id            Int       @id@default(autoincrement())
+
+  creator       User      @relation(fields: [creatorId], references: [id])
+  creatorId     Int
+
+  description   String
+  complete      Boolean
+  value         Decimal
+  //occurence is an enum, but sqlite doesn't support it. 
+  //daily, weekly, monthly, and bonus are the possible strings.
+  occurence     String
+
+  startDate     DateTime  @default(now())
+  endDate       DateTime?
+  completedOn   DateTime?
+  createdAt     DateTime  @default(now())
 }

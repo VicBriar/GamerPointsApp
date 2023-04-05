@@ -8,15 +8,15 @@ To-Do list;
 [] Create the UML Diagrams for the app
 [] Write tests
   [] api (* is optional)
-    [][] User Table
+    [][x] User Table
       id, name, createdAt, email, password, salt, users(stretch, many, self-relation),tasks(many),role "Admin"
-    [][] Tasks Table
+    [][x] Tasks Table
       id, adminId(one), createdAt, task, 
-      startDate* (if null, will be ignored by bonus cell),
+      startDate*,
       dueDate*(if null, will be added to monthly cell every month),
       complete, completedOn, value, occurence {daily, weekly, monthly, bonus}
-    [][] Task can have one Admin
-    [][] Admin can have many tasks
+    [][x] Task can have one Admin
+    [][x] Admin can have many tasks
     C [][] Create Admin
     U [][] Update Admin user's, name, email, password
     D [][] Delete Admin 
