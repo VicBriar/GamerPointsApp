@@ -27,7 +27,7 @@ model Task {
   creatorId     Int
 
   description   String
-  complete      Boolean
+  complete      Boolean  @default(false)
   value         Decimal
   //occurence is an enum, but sqlite doesn't support it. 
   //daily, weekly, monthly, and bonus are the possible strings.
