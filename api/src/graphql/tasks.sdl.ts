@@ -1,10 +1,10 @@
 export const schema = gql`
   type Task {
     id: Int!
-    creator: User!
-    creatorId: Int!
+    creator: User
+    creatorId: Int
     description: String!
-    complete: Boolean!
+    complete: Boolean
     value: Float!
     occurence: String!
     startDate: DateTime!
@@ -19,9 +19,9 @@ export const schema = gql`
   }
 
   input CreateTaskInput {
-    creatorId: Int!
+    creatorId: Int
     description: String!
-    complete: Boolean!
+    complete: Boolean
     value: Float!
     occurence: String!
     startDate: DateTime!

@@ -6,31 +6,15 @@ export const standard = defineScenario<Prisma.TaskCreateArgs>({
     one: {
       data: {
         description: 'String',
-        complete: true,
-        value: 9959515.110697856,
+        value: 9247910.282505644,
         occurence: 'String',
-        creator: {
-          create: {
-            email: 'String7256244',
-            hashedPassword: 'String',
-            salt: 'String',
-          },
-        },
       },
     },
     two: {
       data: {
         description: 'String',
-        complete: true,
-        value: 9156937.000623286,
+        value: 4129426.067562012,
         occurence: 'String',
-        creator: {
-          create: {
-            email: 'String694543',
-            hashedPassword: 'String',
-            salt: 'String',
-          },
-        },
       },
     },
   },

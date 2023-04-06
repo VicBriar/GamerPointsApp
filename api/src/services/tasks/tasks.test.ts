@@ -22,21 +22,17 @@ describe('tasks', () => {
     expect(result).toEqual(scenario.task.one)
   })
 
-  scenario('creates a task', async (scenario: StandardScenario) => {
+  scenario('creates a task', async () => {
     const result = await createTask({
       input: {
-        creatorId: scenario.task.two.creatorId,
         description: 'String',
-        complete: true,
-        value: 2657266.973304955,
+        value: 7849570.299680069,
         occurence: 'String',
       },
     })
 
-    expect(result.creatorId).toEqual(scenario.task.two.creatorId)
     expect(result.description).toEqual('String')
-    expect(result.complete).toEqual(true)
-    expect(result.value).toEqual(new Prisma.Decimal(2657266.973304955))
+    expect(result.value).toEqual(new Prisma.Decimal(7849570.299680069))
     expect(result.occurence).toEqual('String')
   })
 

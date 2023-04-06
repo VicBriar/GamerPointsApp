@@ -23,11 +23,11 @@ model User {
 model Task {
   id            Int       @id@default(autoincrement())
 
-  creator       User      @relation(fields: [creatorId], references: [id])
-  creatorId     Int
+  creator       User?      @relation(fields: [creatorId], references: [id])
+  creatorId     Int?
 
   description   String
-  complete      Boolean  @default(false)
+  complete      Boolean?  @default(false)
   value         Decimal
   //occurence is an enum, but sqlite doesn't support it. 
   //daily, weekly, monthly, and bonus are the possible strings.
