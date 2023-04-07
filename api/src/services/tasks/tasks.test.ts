@@ -3,11 +3,7 @@ import { Prisma, Task } from '@prisma/client'
 import { tasks, task, createTask, updateTask, deleteTask } from './tasks'
 import type { StandardScenario } from './tasks.scenarios'
 
-// Generated boilerplate tests do not account for all circumstances
-// and can fail without adjustments, e.g. Float.
-//           Please refer to the RedwoodJS Testing Docs:
-//       https://redwoodjs.com/docs/testing#testing-services
-// https://redwoodjs.com/docs/testing#jest-expect-type-considerations
+
 
 describe('tasks', () => {
   scenario('returns all tasks', async (scenario: StandardScenario) => {
@@ -17,37 +13,40 @@ describe('tasks', () => {
   })
 
   scenario('returns a single task', async (scenario: StandardScenario) => {
-    const result = await task({ id: scenario.task.one.id })
+    const result = await task({ id: scenario.task.daily.id })
 
-    expect(result).toEqual(scenario.task.one)
+    expect(result).toEqual(scenario.task.daily)
   })
 
   scenario('creates a task', async () => {
     const result = await createTask({
       input: {
-        description: 'String',
-        value: 7849570.299680069,
-        occurence: 'String',
+        description: 'eat stinky cheese',
+        value: .30,
+        occurence: 'weekly',
+        startDate: new Date(2023,4,1),
+        endDate: new Date(2023,4,7),
       },
     })
 
-    expect(result.description).toEqual('String')
-    expect(result.value).toEqual(new Prisma.Decimal(7849570.299680069))
-    expect(result.occurence).toEqual('String')
+    expect(result.description).toEqual('eat stinky cheese')
+    expect(result.value).toEqual(new Prisma.Decimal(.30))
+    expect(result.occurence).toEqual('weekly')
+    expect(result.startDate).toBeInstanceOf(Date)
   })
 
   scenario('updates a task', async (scenario: StandardScenario) => {
-    const original = (await task({ id: scenario.task.one.id })) as Task
+    const original = (await task({ id: scenario.task.daily.id })) as Task
     const result = await updateTask({
       id: original.id,
-      input: { description: 'String2' },
+      input: { description: 'bite pretty villager' },
     })
 
-    expect(result.description).toEqual('String2')
+    expect(result.description).toEqual('bite pretty villager')
   })
 
   scenario('deletes a task', async (scenario: StandardScenario) => {
-    const original = (await deleteTask({ id: scenario.task.one.id })) as Task
+    const original = (await deleteTask({ id: scenario.task.daily.id })) as Task
     const result = await task({ id: original.id })
 
     expect(result).toEqual(null)
