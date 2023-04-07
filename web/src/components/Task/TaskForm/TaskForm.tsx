@@ -8,7 +8,7 @@ import {
   DateField,
 } from '@redwoodjs/forms'
 
-
+import Occurence from 'src/occurence'
 import type { EditTaskById, UpdateTaskInput } from 'types/graphql'
 import type { RWGqlError } from '@redwoodjs/forms'
 
@@ -136,7 +136,8 @@ const TaskForm = (props: TaskFormProps) => {
 
         <TextField
           name="occurence"
-          defaultValue={props.task?.occurence}
+          defaultValue={props.task ? props.task.occurence : Occurence.bonus}
+          readOnly = {!props.task}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{ required: true }}

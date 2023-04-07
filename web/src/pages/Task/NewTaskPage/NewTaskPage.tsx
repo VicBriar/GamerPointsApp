@@ -1,7 +1,7 @@
-import NewTask from 'src/components/Task/NewTask'
+import NewBonusTask from 'src/components/Task/NewBonusTask'
 
 const NewTaskPage = () => {
-  return <NewTask />
+  return <NewBonusTask />
 }
 
 export default NewTaskPage
