@@ -35,8 +35,8 @@ export const createTask: MutationResolvers['createTask'] = ({ input }) => {
   validateWith(
     () => {
       let valid = false
-      for(let key in Occurence){
-          if(input.occurence === Occurence[key]){
+      for(let key in Occurence.enum){
+          if(input.occurence === Occurence.enum[key]){
             valid = true;
           }
       }

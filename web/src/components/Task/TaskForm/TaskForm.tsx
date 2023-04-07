@@ -4,11 +4,13 @@ import {
   FieldError,
   Label,
   TextField,
+  SelectField,
   Submit,
   DateField,
 } from '@redwoodjs/forms'
 
 import Occurence from 'src/occurence'
+import { OccurenceEnumType } from 'src/occurence'
 import type { EditTaskById, UpdateTaskInput } from 'types/graphql'
 import type { RWGqlError } from '@redwoodjs/forms'
 
@@ -39,7 +41,22 @@ interface TaskFormProps {
 }
 
 const TaskForm = (props: TaskFormProps) => {
-  console.log(formatDate())
+  console.log(generateOccurences())
+  function generateOccurences():JSX.Element {
+    const occurences = Occurence.enum
+    let arr:string[] = [];
+    
+    for(let key in occurences){
+      arr.push(key)
+    }
+    
+    return (<>
+    <option>- Please Select Occurence -</option>
+      {arr.map(( occurence ) => 
+        <option>{occurence}</option>
+      )}
+    </>);
+  }
 
   function onSubmit (data: FormTask) {
     props.onSave(data, props?.task?.id)
@@ -134,14 +151,33 @@ const TaskForm = (props: TaskFormProps) => {
           Occurence
         </Label>
 
-        <TextField
+        <SelectField
           name="occurence"
-          defaultValue={props.task ? props.task.occurence : Occurence.bonus}
-          readOnly = {!props.task}
+          multiple = {false}
+          defaultValue = {props.task? props.task.occurence : ""}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
+          validation={
+            { 
+              required: true,
+              validate: {
+                matchesInitialValue: (value) => {
+                  if(value === "- Please Select Occurence -"){
+                    return "you must select an occurence"
+                  }
+                  
+                }
+              },
+            }
+          }
+        >
+          {
+          props.task ? 
+            generateOccurences()
+            : 
+            <option>{Occurence.enum.bonus}</option>
+          }
+          </SelectField>
 
         <FieldError name="occurence" className="rw-field-error" />
 
