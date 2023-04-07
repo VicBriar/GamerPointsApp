@@ -2,18 +2,22 @@ import { Link, routes } from '@redwoodjs/router'
 import { Toaster } from '@redwoodjs/web/toast'
 
 type LayoutProps = {
-  title: string
-  titleTo: string
-  buttonLabel: string
-  buttonTo: string
+  title: string;
+  titleTo: string;
+  tasksButtonLabel: string;
+  bonusButtonLabel: string;
+  tasksButtonTo: string;
+  bonusButtonTo: string;
   children: React.ReactNode
 }
 
-const ScaffoldLayout = ({
+const TasksLayout = ({
   title,
   titleTo,
-  buttonLabel,
-  buttonTo,
+  tasksButtonLabel,
+  bonusButtonLabel,
+  tasksButtonTo,
+  bonusButtonTo,
   children,
 }: LayoutProps) => {
   return (
@@ -25,8 +29,11 @@ const ScaffoldLayout = ({
             {title}
           </Link>
         </h1>
-        <Link to={routes[buttonTo]()} className="rw-button rw-button-green">
-          <div className="rw-button-icon">+</div> {buttonLabel}
+        <Link to={routes[bonusButtonTo]()} className="rw-button rw-button-green">
+          <div className="rw-button-icon">+</div> {bonusButtonLabel}
+        </Link>
+        <Link to={routes[tasksButtonTo]()} className="rw-button rw-button-green">
+          <div className='rw-button-icon'>+</div>{tasksButtonLabel}
         </Link>
       </header>
       <main className="rw-main">{children}</main>
@@ -34,4 +41,4 @@ const ScaffoldLayout = ({
   )
 }
 
-export default ScaffoldLayout
+export default TasksLayout
