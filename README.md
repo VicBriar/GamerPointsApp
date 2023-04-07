@@ -50,6 +50,20 @@ BONUS REQUIRES a due date, Weekly REQUIREs a end-date
 ===========================      
 ## web
   [] web
+    [][] bonus task form
+      [][]bonus tasks require start or end date
+        []start date genereates a single bonus task that is never going to dissappear until completed
+        []end date generages a single bonus task that will show up immediatly, but dissappear by the due date 
+        [] both generates a single bonus task that will show up on start date, with a due date of end date
+    [][] taskS form
+      [][] daily task need a start and end date
+        [][]these create daily tasks with no start date, and an end date for every day in range
+      [][] weekly tasks need start and end date
+        [][]this generates a weekly task for every monday(this can be a selection later) in the range, with start being monday, and end being the following sunday
+      [][]monthly tasks require start and end date
+        [][]this generates a monhtly task for every month in selected range, start date is first of month, end date is last of month
+
+
     [][] taskBox component
         [] TB props
           [] purpose; 0 = daily, 1 = weekly, 2 = monthly,3 = 'bonus'
