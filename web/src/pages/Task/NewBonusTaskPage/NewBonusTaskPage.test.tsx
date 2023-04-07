@@ -1,12 +1,14 @@
 import { render } from '@redwoodjs/testing/web'
 
-import NewTasksPage from './NewTasksPage'
+import NewBonusTaskPage from './NewBonusTaskPage'
 
 
-describe('NewTasksPage', () => {
+describe('NewBonusTaskPage', () => {
   it('renders successfully', () => {
     expect(() => {
-      render(<NewTasksPage />)
+      render(<NewBonusTaskPage />)
     }).not.toThrow()
   })
+
 })
+

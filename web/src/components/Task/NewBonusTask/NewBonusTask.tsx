@@ -18,7 +18,7 @@ const NewBonusTask = () => {
   
   const [createTask, { loading, error }] = useMutation(CREATE_TASK_MUTATION, {
     onCompleted: () => {
-      toast.success('Task created')
+      toast.success('Bonus Task created')
       navigate(routes.tasks())
     },
     onError: (error) => {

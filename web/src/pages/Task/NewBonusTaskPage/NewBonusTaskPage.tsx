@@ -1,7 +1,7 @@
 import NewBonusTask from 'src/components/Task/NewBonusTask'
 
-const NewTaskPage = () => {
+const NewBonusTaskPage = () => {
   return <NewBonusTask />
 }
 
-export default NewTaskPage
+export default NewBonusTaskPage

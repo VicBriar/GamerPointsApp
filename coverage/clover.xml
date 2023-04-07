@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1680900468730" clover="3.2.0">
+  <project timestamp="1680900468730" name="All files">
+    <metrics statements="17" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="8" coveredmethods="0" elements="25" coveredelements="0" complexity="0" loc="17" ncloc="17" packages="4" files="5" classes="5"/>
+    <package name="src">
+      <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="Routes.tsx" path="/Users/vmccrady/Documents/MultiverseClass/GamerPoints/GamerPointsApp/web/src/Routes.tsx">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.components.Task.NewBonusTask">
+      <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <file name="NewBonusTask.tsx" path="/Users/vmccrady/Documents/MultiverseClass/GamerPoints/GamerPointsApp/web/src/components/Task/NewBonusTask/NewBonusTask.tsx">
+        <metrics statements="9" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="25" count="0" type="stmt"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.pages.NewTasksPage">
+      <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="NewTasksPage.tsx" path="/Users/vmccrady/Documents/MultiverseClass/GamerPoints/GamerPointsApp/web/src/pages/NewTasksPage/NewTasksPage.tsx">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="stmt"/>
+      </file>
+    </package>
+    <package name="src.pages.Task.NewBonusTaskPage">
+      <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+      <file name="NewBonusTaskPage.stories.tsx" path="/Users/vmccrady/Documents/MultiverseClass/GamerPoints/GamerPointsApp/web/src/pages/Task/NewBonusTaskPage/NewBonusTaskPage.stories.tsx">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="5" count="0" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+      </file>
+      <file name="NewBonusTaskPage.tsx" path="/Users/vmccrady/Documents/MultiverseClass/GamerPoints/GamerPointsApp/web/src/pages/Task/NewBonusTaskPage/NewBonusTaskPage.tsx">
+        <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="3" count="0" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>

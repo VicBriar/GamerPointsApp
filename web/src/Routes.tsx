@@ -10,6 +10,7 @@
 import { Set, Router, Route } from '@redwoodjs/router'
 
 import TasksLayout from 'src/layouts/TasksLayout/TasksLayout'
+import NewBonusTask from './components/Task/NewBonusTask/NewBonusTask'
 
 const Routes = () => {
   return (
@@ -19,12 +20,12 @@ const Routes = () => {
         wrap={TasksLayout} 
         title="Tasks"
         titleTo="tasks"
-        tasksButtonLabel='New Tasks'
+        tasksButtonLabel="New Tasks"
         bonusButtonLabel="New Bonus Task"
         tasksButtonTo="newTasks"
         bonusButtonTo="newTask"
       >
-        <Route path="/tasks/newBonus" page={TaskNewTaskPage} name="newTask" />
+        <Route path="/tasks/newBonus" page={NewBonusTask} name="newTask" />
         <Route path="/tasks/new" page={NewTasksPage} name="newTasks" />
         <Route path="/tasks/{id:Int}/edit" page={TaskEditTaskPage} name="editTask" />
         <Route path="/tasks/{id:Int}" page={TaskTaskPage} name="task" />
