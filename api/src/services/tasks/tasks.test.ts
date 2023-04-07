@@ -34,6 +34,50 @@ describe('tasks', () => {
     expect(result.occurence).toEqual('weekly')
     expect(result.startDate).toBeInstanceOf(Date)
   })
+  it('throws erorr when creating a task with an incorrect occurence', async () => {
+    expect( 
+      async () => {
+        await createTask({
+        input: {
+          description: 'eat stinky cheese',
+          value: .30,
+          occurence: 'Weekly',
+          startDate: new Date(2023,4,1),
+          endDate: new Date(2023,4,7),}
+        })
+      }
+    ).rejects.toThrow()
+  })
+
+  it('throws erorr when creating a task with no description', async () => {
+    expect( 
+      async () => {
+        await createTask({
+        input: {
+          description: 'e',
+          value: .30,
+          occurence: 'weekly',
+          startDate: new Date(2023,4,1),
+          endDate: new Date(2023,4,7),}
+        })
+      }
+    ).rejects.toThrow()
+  })
+
+  it('throws erorr when creating a task with an older end date than start date', async () => {
+    expect( 
+      async () => {
+        await createTask({
+        input: {
+          description: 'e',
+          value: .30,
+          occurence: 'weekly',
+          startDate: new Date(2023,5,1),
+          endDate: new Date(2023,4,7),}
+        })
+      }
+    ).rejects.toThrow()
+  })
 
   scenario('updates a task', async (scenario: StandardScenario) => {
     const original = (await task({ id: scenario.task.daily.id })) as Task
