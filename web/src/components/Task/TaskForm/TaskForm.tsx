@@ -41,7 +41,6 @@ interface TaskFormProps {
 }
 
 const TaskForm = (props: TaskFormProps) => {
-  console.log(generateOccurences())
   function generateOccurences():JSX.Element {
     const occurences = Occurence.enum
     let arr:string[] = [];
@@ -52,8 +51,8 @@ const TaskForm = (props: TaskFormProps) => {
     
     return (<>
     <option>- Please Select Occurence -</option>
-      {arr.map(( occurence ) => 
-        <option>{occurence}</option>
+      {arr.map(( occurence,idx ) => 
+        <option key={idx}>{occurence}</option>
       )}
     </>);
   }
