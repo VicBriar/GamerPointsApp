@@ -15,9 +15,11 @@ import NewBonusTask from './components/Task/NewBonusTask/NewBonusTask'
 const Routes = () => {
   return (
     <Router>
-      {/* <Route path="/new-tasks" page={NewTasksPage} name="newTasks" /> */}
-      <Set 
-        wrap={TasksLayout} 
+
+      <Route path="/home" page={HomePage} name="home" />
+
+      <Set
+        wrap={TasksLayout}
         title="Tasks"
         titleTo="tasks"
         tasksButtonLabel="New Tasks"
