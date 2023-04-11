@@ -7,12 +7,16 @@ import {
   SelectField,
   Submit,
   DateField,
+  InputFieldProps,
 } from '@redwoodjs/forms'
-
+import { useCallback, useState } from 'react'
 import Occurence from 'src/occurence'
 import { OccurenceEnumType } from 'src/occurence'
-import type { EditTaskById, UpdateTaskInput } from 'types/graphql'
+import type { EditTaskById, Redwood, UpdateTaskInput } from 'types/graphql'
 import type { RWGqlError } from '@redwoodjs/forms'
+import Task from '../Task/Task'
+
+
 
 const formatDate = (value: string | void ):string => {
   // if (value) {
@@ -32,7 +36,13 @@ const formatDate = (value: string | void ):string => {
 }
 
 type FormTask = NonNullable<EditTaskById['task']>
-
+interface taskData {
+  description: string;
+  value: number;
+  occurence: string;
+  startDate: string;
+  endDate: string;
+}
 interface TaskFormProps {
   task?: EditTaskById['task']
   onSave: (data: UpdateTaskInput, id?: FormTask['id']) => void
@@ -40,7 +50,26 @@ interface TaskFormProps {
   loading: boolean
 }
 
+
 const TaskForm = (props: TaskFormProps) => {
+
+
+  const [description, setDescription] = useState( props.task ? props.task.description : "")
+  const [value, setValue] = useState(props.task ? props.task.value : 0.00)
+  const [occurence, setOccurence] = useState(props.task ? props.task.occurence : "")
+  const [startDate, setStartDate] = useState(props.task ? props.task.startDate : formatDate((new Date()).toISOString()))
+
+  function calculateEndDate () {
+    if(props.task){
+      return props.task.endDate
+    }
+    return setDefaultEndDate(occurence,startDate)
+  }
+
+  const [endDate, setEndDate] = useState(calculateEndDate)
+  console.log("end date is ",endDate)
+
+
   function generateOccurences():JSX.Element {
     const occurences = Occurence.enum
     let arr:string[] = [];
@@ -52,13 +81,48 @@ const TaskForm = (props: TaskFormProps) => {
     return (<>
     <option>- Please Select Occurence -</option>
       {arr.map(( occurence,idx ) =>
-        <option key={idx}>{occurence}</option>
+        <option value={occurence} key={idx}>{occurence}</option>
       )}
     </>);
   }
 
   function onSubmit (data: FormTask) {
     props.onSave(data, props?.task?.id)
+  }
+
+  function setDefaultEndDate(occurence: string = "not provided", startDateStr: string = null):string {
+    console.log("set End Date was called, occurence: ",occurence,"startDate: ",startDateStr)
+    let startDate = new Date();
+    if(!!startDateStr){
+      startDate = new Date(startDateStr);
+    }
+    let endDate: Date;
+    switch(occurence) {
+      case Occurence.enum.daily:
+        console.log('daily selected')
+        endDate = startDate;
+        break;
+      case Occurence.enum.weekly:
+        console.log('weekly selected')
+        endDate = new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate() + 8);
+        break;
+
+      case Occurence.enum.monthly:
+        console.log('monthly selected')
+        endDate = new Date(startDate.getFullYear(),startDate.getMonth() + 1,0);
+        break;
+
+      case Occurence.enum.bonus:
+        console.log('bonus selected')
+        endDate = new Date();
+        break;
+
+      default:
+        console.log("default triggered")
+        endDate = new Date()
+    }
+    console.log("return date is ", formatDate(endDate.toISOString()))
+    return formatDate(endDate.toISOString());
   }
 
   return (
@@ -81,7 +145,8 @@ const TaskForm = (props: TaskFormProps) => {
 
         <TextField
           name="description"
-          defaultValue={props.task?.description}
+          value={description}
+          onChange={(evnt: React.FormEvent<HTMLInputElement>) => setDescription(evnt.currentTarget.value)}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{ required: true }}
@@ -99,7 +164,8 @@ const TaskForm = (props: TaskFormProps) => {
 
         <TextField
           name="value"
-          defaultValue={props.task?.value}
+          value={value}
+          onChange={(evnt: React.FormEvent<HTMLInputElement>) => setValue(evnt.currentTarget.value)}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={{ valueAsNumber: true, required: true }}
@@ -116,9 +182,11 @@ const TaskForm = (props: TaskFormProps) => {
         </Label>
 
         <SelectField
+          id="occurence"
           name="occurence"
           multiple = {false}
-          defaultValue = {props.task? props.task.occurence : ""}
+          value={occurence}
+          onChange={(evnt: React.FormEvent<HTMLSelectElement>) =>{ setOccurence(evnt.currentTarget.value); setEndDate(setDefaultEndDate(evnt.currentTarget.value,startDate))}}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={
@@ -135,17 +203,13 @@ const TaskForm = (props: TaskFormProps) => {
             }
           }
         >
-          {
-          props.task ?
-            generateOccurences()
-            :
-            <option>{Occurence.enum.bonus}</option>
-          }
+          {generateOccurences()}
           </SelectField>
 
         <FieldError name="occurence" className="rw-field-error" />
 
         <Label
+          id="startDate"
           name="startDate"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
@@ -155,7 +219,8 @@ const TaskForm = (props: TaskFormProps) => {
 
         <DateField
           name="startDate"
-          defaultValue={formatDate(props.task?.startDate)}
+          value={startDate}
+          onChange={(evnt: React.FormEvent<HTMLInputElement>) => {setStartDate( evnt.currentTarget.value)}}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
         />
@@ -172,7 +237,8 @@ const TaskForm = (props: TaskFormProps) => {
 
         <DateField
           name="endDate"
-          defaultValue={props.task?.endDate ? formatDate(props.task?.endDate) : null}
+          value={endDate}
+          onChange={(evnt: React.FormEvent<HTMLInputElement>) => setEndDate(evnt.currentTarget.value)}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
         />
