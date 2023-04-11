@@ -23,6 +23,10 @@
   },
   "devDependencies": {
     "@storybook/addons": "^7.0.2",
-    "@storybook/theming": "^7.0.2"
+    "@storybook/theming": "^7.0.2",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.21",
+    "postcss-loader": "^7.2.4",
+    "tailwindcss": "^3.3.1"
   }
 }
