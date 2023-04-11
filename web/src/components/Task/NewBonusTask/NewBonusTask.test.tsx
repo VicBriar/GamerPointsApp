@@ -1,6 +1,8 @@
-import { render, screen, waitFor } from '@redwoodjs/testing/web'
-import userEvent from '@testing-library/user-event'
+import { render, screen } from '@redwoodjs/testing/web'
+
 import NewBonusTask from './NewBonusTask'
+import { standard } from './NewBonusTask.mock'
+
 
 describe('New Bonus Task', () => {
     it('renders heading', () => {
@@ -9,6 +11,9 @@ describe('New Bonus Task', () => {
         expect(screen.getByText('New Bonus Task')).toBeInTheDocument()
     })
 
- 
+    it('renders form', () => {
+        render(<NewBonusTask />)
 
+        expect(screen.getAllByRole('textbox').length).toBeGreaterThanOrEqual(2)
+    })
 })

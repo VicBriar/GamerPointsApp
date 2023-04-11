@@ -15,9 +15,9 @@ const CREATE_TASK_MUTATION = gql`
 `
 
 const NewBonusTask = () => {
-  
+
   const [createTask, { loading, error }] = useMutation(CREATE_TASK_MUTATION, {
-    onCompleted: () => {
+   onCompleted: () => {
       toast.success('Bonus Task created')
       navigate(routes.tasks())
     },

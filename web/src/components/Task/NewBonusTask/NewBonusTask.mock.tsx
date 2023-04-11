@@ -1,7 +1,9 @@
+
 let today = new Date;
 let end = new Date;
 let endOfWeek = today.getDate() + 7
 end.setDate(endOfWeek);
+
 
 export const standard = () => ({
   one: {
