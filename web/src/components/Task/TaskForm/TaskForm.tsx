@@ -44,14 +44,14 @@ const TaskForm = (props: TaskFormProps) => {
   function generateOccurences():JSX.Element {
     const occurences = Occurence.enum
     let arr:string[] = [];
-    
+
     for(let key in occurences){
       arr.push(key)
     }
-    
+
     return (<>
     <option>- Please Select Occurence -</option>
-      {arr.map(( occurence,idx ) => 
+      {arr.map(( occurence,idx ) =>
         <option key={idx}>{occurence}</option>
       )}
     </>);
@@ -71,24 +71,6 @@ const TaskForm = (props: TaskFormProps) => {
           listClassName="rw-form-error-list"
         />
 
-        {/* <Label
-          name="creatorId"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Creator id
-        </Label>
-
-        <NumberField
-          name="creatorId"
-          defaultValue={props.task?.creatorId}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="creatorId" className="rw-field-error" /> */}
-
         <Label
           name="description"
           className="rw-label"
@@ -106,23 +88,6 @@ const TaskForm = (props: TaskFormProps) => {
         />
 
         <FieldError name="description" className="rw-field-error" />
-
-        {/* <Label
-          name="complete"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Complete
-        </Label>
-
-        <CheckboxField
-          name="complete"
-          defaultChecked={props.task?.complete}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-
-        <FieldError name="complete" className="rw-field-error" /> */}
 
         <Label
           name="value"
@@ -157,23 +122,23 @@ const TaskForm = (props: TaskFormProps) => {
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={
-            { 
+            {
               required: true,
               validate: {
                 matchesInitialValue: (value) => {
                   if(value === "- Please Select Occurence -"){
                     return "you must select an occurence"
                   }
-                  
+
                 }
               },
             }
           }
         >
           {
-          props.task ? 
+          props.task ?
             generateOccurences()
-            : 
+            :
             <option>{Occurence.enum.bonus}</option>
           }
           </SelectField>
@@ -213,23 +178,6 @@ const TaskForm = (props: TaskFormProps) => {
         />
 
         <FieldError name="endDate" className="rw-field-error" />
-
-        {/* <Label
-          name="completedOn"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Completed on
-        </Label>
-
-        <DatetimeLocalField
-          name="completedOn"
-          defaultValue={formatDatetime(props.task?.completedOn)}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-        />
-
-        <FieldError name="completedOn" className="rw-field-error" /> */}
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">
