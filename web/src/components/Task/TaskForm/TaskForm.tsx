@@ -125,7 +125,7 @@ const TaskForm = (props: TaskFormProps) => {
 
   return (
     <div className="rw-form-wrapper">
-      <Form<FormTask> onSubmit={onSubmit} error={props.error}>
+      <Form<FormTask> data-testid="form" onSubmit={onSubmit} error={props.error}>
         <FormError
           error={props.error}
           wrapperClassName="rw-form-error-wrapper"
