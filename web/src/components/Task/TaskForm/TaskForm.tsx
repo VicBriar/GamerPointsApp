@@ -18,10 +18,7 @@ import Task from '../Task/Task'
 
 
 
-const formatDate = (value: string | void ):string => {
-  // if (value) {
-  //   return value.replace(/:\d{2}\.\d{3}\w/, '')
-  // }
+export const formatDate = (value: string | void ):string => {
   let date = new Date
   if(value){
     date = new Date(value);
@@ -34,6 +31,7 @@ const formatDate = (value: string | void ):string => {
     let year = arrayDate.slice(0,4).join("")
     return `${year}-${month}-${day}`
 }
+
 
 type FormTask = NonNullable<EditTaskById['task']>
 interface taskData {
@@ -63,11 +61,11 @@ const TaskForm = (props: TaskFormProps) => {
     if(props.task){
       return props.task.endDate
     }
-    return setDefaultEndDate(occurence,startDate)
+    return setDefaultEndDate("",startDate)
   }
 
   const [endDate, setEndDate] = useState(calculateEndDate)
-  console.log("end date is ",endDate)
+  // console.log("end date is ",endDate)
 
 
   function generateOccurences():JSX.Element {
@@ -91,7 +89,7 @@ const TaskForm = (props: TaskFormProps) => {
   }
 
   function setDefaultEndDate(occurence: string = "not provided", startDateStr: string = null):string {
-    console.log("set End Date was called, occurence: ",occurence,"startDate: ",startDateStr)
+
     let startDate = new Date();
     if(!!startDateStr){
       startDate = new Date(startDateStr);
@@ -99,29 +97,29 @@ const TaskForm = (props: TaskFormProps) => {
     let endDate: Date;
     switch(occurence) {
       case Occurence.enum.daily:
-        console.log('daily selected')
+        // console.log('daily selected')
         endDate = startDate;
         break;
       case Occurence.enum.weekly:
-        console.log('weekly selected')
-        endDate = new Date(startDate.getFullYear(),startDate.getMonth(),startDate.getDate() + 8);
+        // console.log('weekly selected')
+        endDate = new Date(startDate.getUTCFullYear(),startDate.getUTCMonth(),startDate.getUTCDate() + 7);
         break;
 
       case Occurence.enum.monthly:
-        console.log('monthly selected')
-        endDate = new Date(startDate.getFullYear(),startDate.getMonth() + 1,0);
+        // console.log('monthly selected')
+        endDate = new Date(startDate.getUTCFullYear(),startDate.getUTCMonth() + 1,0);
         break;
 
       case Occurence.enum.bonus:
-        console.log('bonus selected')
+        // console.log('bonus selected')
         endDate = new Date();
         break;
 
       default:
-        console.log("default triggered")
-        endDate = new Date()
+        // console.log("default triggered")
+        return ""
     }
-    console.log("return date is ", formatDate(endDate.toISOString()))
+    // console.log("return date is ", formatDate(endDate.toISOString()))
     return formatDate(endDate.toISOString());
   }
 
@@ -141,9 +139,11 @@ const TaskForm = (props: TaskFormProps) => {
           errorClassName="rw-label rw-label-error"
         >
           Description
+
         </Label>
 
         <TextField
+          id="description"
           name="description"
           value={description}
           onChange={(evnt: React.FormEvent<HTMLInputElement>) => setDescription(evnt.currentTarget.value)}
@@ -163,6 +163,7 @@ const TaskForm = (props: TaskFormProps) => {
         </Label>
 
         <TextField
+          id="value"
           name="value"
           value={value}
           onChange={(evnt: React.FormEvent<HTMLInputElement>) => setValue(evnt.currentTarget.value)}
@@ -209,7 +210,6 @@ const TaskForm = (props: TaskFormProps) => {
         <FieldError name="occurence" className="rw-field-error" />
 
         <Label
-          id="startDate"
           name="startDate"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
@@ -218,6 +218,7 @@ const TaskForm = (props: TaskFormProps) => {
         </Label>
 
         <DateField
+          id="startDate"
           name="startDate"
           value={startDate}
           onChange={(evnt: React.FormEvent<HTMLInputElement>) => {setStartDate( evnt.currentTarget.value)}}
@@ -236,6 +237,7 @@ const TaskForm = (props: TaskFormProps) => {
         </Label>
 
         <DateField
+          id="endDate"
           name="endDate"
           value={endDate}
           onChange={(evnt: React.FormEvent<HTMLInputElement>) => setEndDate(evnt.currentTarget.value)}

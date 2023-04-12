@@ -8,7 +8,7 @@ describe('New Bonus Task', () => {
     it('renders heading', () => {
         render(<NewBonusTask />)
 
-        expect(screen.getByText('New Bonus Task')).toBeInTheDocument()
+        expect(screen.getByText('New Task(s)')).toBeInTheDocument()
     })
 
     it('renders form', () => {
