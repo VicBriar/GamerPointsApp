@@ -1,20 +1,30 @@
 import { Form,FormError,FieldError,CheckboxField, Label } from "@redwoodjs/forms"
 
-const SingleTaskToDo = () => {
+interface SingleTaskToDoProps {
+complete: boolean;
+description: string;
+id: number;
+}
+
+const SingleTaskToDo = (props:SingleTaskToDoProps) => {
+  let {complete,description,id} = props;
   return (
     <div className="mx-5">
-      <Form className="flex justify-around"
+      <Form className="flex p-3"
       >
         <FormError/>
 
         <CheckboxField
           name="completed"
           className="mx-2"
+          defaultChecked={complete}
         ></CheckboxField>
         <Label
           name="completed"
           className="mx-2"
-        >prop of description</Label>
+        >
+          {description}
+        </Label>
       </Form>
     </div>
   )
