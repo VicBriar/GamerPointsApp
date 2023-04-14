@@ -1,13 +1,14 @@
-import type { FindTasks, FindTasksVariables } from 'types/graphql'
+import type { FindToDoTasks, FindToDoTasksVariables } from 'types/graphql'
 import type { CellSuccessProps, CellFailureProps } from '@redwoodjs/web'
+import DailyToDoCard from '../DailyToDoCard/DailyToDoCard'
+import Week from '../../Week/Week'
 
 export const QUERY = gql`
-  query FindTasks {
+  query FindToDoTasks {
     tasks {
       id
       description
       complete
-      value
       occurence
       startDate
       endDate
@@ -22,12 +23,12 @@ export const Empty = () => <div>Empty</div>
 
 export const Failure = ({
   error,
-}: CellFailureProps<FindTasksVariables>) => (
+}: CellFailureProps) => (
   <div style={{ color: 'red' }}>Error: {error?.message}</div>
 )
 
 export const Success = ({
   tasks
-}: CellSuccessProps<FindTasks,FindTasksVariables>) => {
-  return <div>{JSON.stringify(tasks)}</div>
+}: CellSuccessProps<FindToDoTasks>) => {
+  return <Week tasks={tasks} />
 }

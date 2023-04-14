@@ -4,8 +4,8 @@
 // ```tsx
 // import type { ComponentStory } from '@storybook/react'
 //
-// export const generated: ComponentStory<typeof ToDoCard> = (args) => {
-//   return <ToDoCard {...args} />
+// export const generated: ComponentStory<typeof DailyToDoCard> = (args) => {
+//   return <DailyToDoCard {...args} />
 // }
 // ```
 //
@@ -13,13 +13,13 @@
 
 import type { ComponentMeta } from '@storybook/react'
 
-import ToDoCard from './ToDoCard'
+import DailyToDoCard from './DailyToDoCard'
 
 export const generated = () => {
-  return <ToDoCard />
+  return <DailyToDoCard />
 }
 
 export default {
-  title: 'Components/ToDoCard',
-  component: ToDoCard,
-} as ComponentMeta<typeof ToDoCard>
+  title: 'Components/DailyToDoCard',
+  component: DailyToDoCard,
+} as ComponentMeta<typeof DailyToDoCard>

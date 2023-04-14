@@ -3,7 +3,8 @@ import { Form,FormError,FieldError,CheckboxField, Label } from "@redwoodjs/forms
 const SingleTaskToDo = () => {
   return (
     <div className="mx-5">
-      <Form>
+      <Form className="flex justify-around"
+      >
         <FormError/>
 
         <CheckboxField

@@ -1,6 +1,6 @@
 import { Link, routes } from '@redwoodjs/router'
 import { MetaTags } from '@redwoodjs/web'
-import ToDoCell from 'src/components/Home/ToDoCell'
+import ToDoCell from 'src/components/Home/ToDo/ToDoCell'
 
 const HomePage = () => {
   return (
