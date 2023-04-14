@@ -17,9 +17,9 @@ const CREATE_TASK_MUTATION = gql`
 export function generateDailyRange(start:Date,end:Date):Date[] {
   let result: Date[] = [];
   let shallowStart = new Date(start);
-  console.log("currentdate <= end is;",shallowStart, "<=", end)
+  // console.log("currentdate <= end is;",shallowStart, "<=", end)
   for(let currentDate = new Date(start); currentDate <= end; currentDate.setDate(currentDate.getDate()+1)){
-    console.log(`current date is; ${currentDate}, end is ${end}, result is ${result}`)
+    // console.log(`current date is; ${currentDate}, end is ${end}, result is ${result}`)
     result.push(new Date(currentDate))
     // console.log(`and now result is; ${result}`)
   }
@@ -46,7 +46,7 @@ const NewTask = () => {
 
   const [createTask, { loading, error }] = useMutation(CREATE_TASK_MUTATION, {
    onCompleted: (data) => {
-      console.log(data)
+      // console.log(data)
       toast.success('Bonus Task created')
       navigate(routes.tasks())
     },
@@ -60,11 +60,11 @@ const NewTask = () => {
     switch(input.occurence) {
       case Occurence.enum.bonus:
         createTask({ variables: { input } })
-        console.log("bonus was made!")
+        // console.log("bonus was made!")
         break;
 
       case Occurence.enum.daily:
-        console.log("daily was submitted")
+        // console.log("daily was submitted")
         if(!(input.startDate || input.endDate)){
           alert("you must supply an end or start date for daily tasks!")
         }else {
@@ -72,21 +72,21 @@ const NewTask = () => {
         const end = input.endDate  ? new Date(input.endDate) : new Date(input.startDate)
         const range = generateDailyRange(start,end);
         const tasks: CreateTaskInput[] = []
-        console.log(`start is: ${input.startDate}, end is; ${input.endDate}, occurence is; ${input.occurence}, range is; ${range}`)
+        // console.log(`start is: ${input.startDate}, end is; ${input.endDate}, occurence is; ${input.occurence}, range is; ${range}`)
           range.map((date) => {
           tasks.push({...input,
             startDate: date.toISOString(),
             endDate: date.toISOString(),
           })
         })
-        console.log(`input is; `,input,"tasks is; ",tasks)
+        // console.log(`input is; `,input,"tasks is; ",tasks)
         tasks.map((task) => {
           createTask({ variables: { input: task }})
         })
          }
         break;
       case Occurence.enum.weekly:
-        console.log("weekly was submitted!")
+        // console.log("weekly was submitted!")
         if(!(input.startDate)){
           alert("you must supply a start date for weekly tasks!")
          }else {
@@ -96,25 +96,25 @@ const NewTask = () => {
           end.setDate(end.getDate()+7)
         }
 
-        console.log(`inut.startDate is; ${input.startDate}, start is; ${start}, input.enddate is; ${input.endDate},and end is; ${end} .`)
+        // console.log(`inut.startDate is; ${input.startDate}, start is; ${start}, input.enddate is; ${input.endDate},and end is; ${end} .`)
 
         const range = generateWeeklyRange(start,end);
         const tasks: CreateTaskInput[] = []
-        console.log("typeof input.value is; ",typeof input.value)
+        // console.log("typeof input.value is; ",typeof input.value)
         range.map((arr) => {
           tasks.push({...input,
             startDate: arr[0].toISOString(),
             endDate: arr[1].toISOString(),
           })
         })
-        console.log(`range is; ${range}, and tasks object is; `,tasks)
+        // console.log(`range is; ${range}, and tasks object is; `,tasks)
         tasks.map((task) => {
           createTask({ variables: { input: task }})
         })
        }
         break;
       case Occurence.enum.monthly:
-        console.log("monthly was submitted")
+        // console.log("monthly was submitted")
         toast.error("coming soon!")
         break;
     }

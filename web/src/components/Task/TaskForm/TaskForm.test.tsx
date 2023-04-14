@@ -18,7 +18,7 @@ function validWeeklyDate(start:Date,end:Date):boolean {
 
 function validMonthlyDate(start:Date,date:Date):boolean {
     if(start > date || start.getDate() === date.getDate()){
-        console.log("monthly didn't pass first check, start > date is; ",start,">",date,"and start.getDate === date.getDate is",start.getDate(),date.getDate())
+        // console.log("monthly didn't pass first check, start > date is; ",start,">",date,"and start.getDate === date.getDate is",start.getDate(),date.getDate())
       return false;
     }
     const expected = makeNewDate()
@@ -37,7 +37,7 @@ describe('functions',() => {
 
         expect(validWeeklyDate(today,today)).toBe(false);
         expect(validWeeklyDate(end,today)).toBe(false);
-        console.log("today, end is; ",today,", ",end)
+        // console.log("today, end is; ",today,", ",end)
         expect(validWeeklyDate(today,end)).toBe(true)
     })
     it('validmonthlydate returns false for endDates that are not a month away',() => {
