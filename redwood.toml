@@ -11,7 +11,7 @@
   apiUrl = "/.redwood/functions"
   includeEnvironmentVariables = [] # any ENV vars that should be available to the web side, see https://redwoodjs.com/docs/environment-variables#web
 [api]
-  port = 8913
+  port = 8914
 [browser]
   open = true
 [notifications]
