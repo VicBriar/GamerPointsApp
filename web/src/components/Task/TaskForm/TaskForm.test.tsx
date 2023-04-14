@@ -81,7 +81,7 @@ describe('TaskForm', () => {
         render(<TaskForm error={null} onSave={jest.fn()} loading={false} />)
 
         expect(screen.getByLabelText('Description').nodeValue).toBeNull()
-        expect(screen.getByDisplayValue(0)).toBeInTheDocument()
+        expect(screen.getByDisplayValue("0.00")).toBeInTheDocument()
         expect(screen.getByDisplayValue("- Please Select Occurence -")).toBeInTheDocument()
         expect(screen.getByDisplayValue(formatDate())).toBeInTheDocument()
         expect(screen.getByLabelText("End date").nodeValue).toBeNull()

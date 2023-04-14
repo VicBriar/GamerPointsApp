@@ -31,7 +31,7 @@ describe('New Bonus Task', () => {
         expect(description.getAttribute("value")).toBe("");
         expect(description).toBeEnabled()
         const value = (screen.getByLabelText("Value"));
-        expect(value.getAttribute("value")).toBe("0")
+        expect(value.getAttribute("value")).toBe("0.00")
         const occurence = (screen.getByRole("combobox"));
         expect(occurence).not.toBeNull()
         const selections = (screen.getAllByRole("option"))
@@ -43,6 +43,7 @@ describe('New Bonus Task', () => {
 
         await user.selectOptions(occurence,"bonus")
         await user.type(description,"test task")
+        await user.clear(value)
         await user.type(value,"0.23")
 
         await waitFor(() => user.clear(startDate))
@@ -52,7 +53,7 @@ describe('New Bonus Task', () => {
 
         expect(selections.find((item: HTMLOptionElement) => item.selected === true).getAttribute("value")).toBe("bonus")
         expect(screen.getByDisplayValue("test task")).toBeInTheDocument()
-        expect(screen.getByDisplayValue("00.23")).toBeInTheDocument()
+        expect(screen.getByDisplayValue("0.23")).toBeInTheDocument()
         expect(screen.getByDisplayValue("2020-05-01")).toBeInTheDocument()
         expect(screen.getByDisplayValue("2020-05-30")).toBeInTheDocument()
 

@@ -5,7 +5,7 @@ import NewTasks from 'src/components/NewTasks/NewTasks'
 const NewTasksPage = () => {
   return (
     <>
-      <MetaTags title="NewTasks" description="NewTasks page" />
+      <MetaTags title="NewTask(s)" description="NewTasks page" />
       <NewTasks />
     </>
   )

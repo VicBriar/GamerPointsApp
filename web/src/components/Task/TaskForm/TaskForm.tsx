@@ -103,8 +103,8 @@ const TaskForm = (props: TaskFormProps) => {
         description: description,
         value: parseFloat(value),
         occurence: occurence,
-        startDate: startDate,
-        endDate: endDate,
+        startDate: dateFromFormStr(startDate).toISOString(),
+        endDate: dateFromFormStr(endDate).toISOString(),
       }
       props.onSave(newData,event)
     }    
@@ -139,7 +139,7 @@ const TaskForm = (props: TaskFormProps) => {
 
       case Occurence.enum.bonus:
         // console.log('bonus selected')
-        endDate = new Date();
+        endDate = makeNewDate();
         break;
 
       default:
