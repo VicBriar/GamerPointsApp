@@ -4,20 +4,16 @@ import { Toaster } from '@redwoodjs/web/toast'
 type LayoutProps = {
   title: string;
   titleTo: string;
-  tasksButtonLabel: string;
-  bonusButtonLabel: string;
-  tasksButtonTo: string;
-  bonusButtonTo: string;
+  createButtonLabel: string;
+  createButtonTo: string;
   children: React.ReactNode
 }
 
 const TasksLayout = ({
   title,
   titleTo,
-  tasksButtonLabel,
-  bonusButtonLabel,
-  tasksButtonTo,
-  bonusButtonTo,
+  createButtonLabel,
+  createButtonTo,
   children,
 }: LayoutProps) => {
   return (
@@ -29,12 +25,12 @@ const TasksLayout = ({
             {title}
           </Link>
         </h1>
-        <Link to={routes[bonusButtonTo]()} className="rw-button rw-button-green">
-          <div className="rw-button-icon">+</div> {bonusButtonLabel}
+        <Link to={routes[createButtonTo]()} className="rw-button rw-button-green">
+          <div className="rw-button-icon">+</div> {createButtonLabel}
         </Link>
-        <Link to={routes[tasksButtonTo]()} className="rw-button rw-button-green">
+        {/* <Link to={routes[tasksButtonTo]()} className="rw-button rw-button-green">
           <div className='rw-button-icon'>+</div>{tasksButtonLabel}
-        </Link>
+        </Link> */}
       </header>
       <main className="rw-main">{children}</main>
     </div>

@@ -2,9 +2,9 @@ import { render, screen, waitFor,fireEvent } from '@redwoodjs/testing/web'
 import userEvent from '@testing-library/user-event'
 import TaskForm, { formatDate } from '../TaskForm/TaskForm'
 
-import NewBonusTask from './NewBonusTask'
-import { standard } from './NewBonusTask.mock'
-import { generateDailyRange, generateWeeklyRange } from './NewBonusTask'
+import NewBonusTask from './NewTask'
+import { standard } from './NewTask.mock'
+import { generateDailyRange, generateWeeklyRange } from './NewTask'
 
 describe('New Bonus Task', () => {
     it('renders heading', () => {

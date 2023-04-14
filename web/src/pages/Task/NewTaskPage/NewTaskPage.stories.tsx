@@ -1,6 +1,6 @@
 import type { ComponentMeta } from '@storybook/react'
 
-import NewBonusTaskPage from './NewBonusTaskPage'
+import NewBonusTaskPage from './NewTaskPage'
 
 export const generated = () => {
   return <NewBonusTaskPage />

@@ -42,7 +42,7 @@ export function generateWeeklyRange(start:Date,end:Date):Date[][] {
 }
 
 
-const NewBonusTask = () => {
+const NewTask = () => {
 
   const [createTask, { loading, error }] = useMutation(CREATE_TASK_MUTATION, {
    onCompleted: (data) => {
@@ -132,4 +132,4 @@ const NewBonusTask = () => {
   )
 }
 
-export default NewBonusTask
+export default NewTask
