@@ -103,7 +103,6 @@ const NewBonusTask = () => {
         console.log("typeof input.value is; ",typeof input.value)
         range.map((arr) => {
           tasks.push({...input,
-            value: parseFloat(input.value),
             startDate: arr[0].toISOString(),
             endDate: arr[1].toISOString(),
           })

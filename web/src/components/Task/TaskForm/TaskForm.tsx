@@ -65,7 +65,7 @@ const TaskForm = (props: TaskFormProps) => {
   
 
   const [description, setDescription] = useState( props.task ? props.task.description : "")
-  const [value, setValue] = useState(props.task ? props.task.value : 0.00)
+  const [value, setValue] = useState(props.task ? `${props.task.value}` : "0.00")
   const [occurence, setOccurence] = useState(props.task ? props.task.occurence : "")
   const [startDate, setStartDate] = useState(props.task ? props.task.startDate : formatDate)
   const [endDate, setEndDate] = useState(props.task ? props.task.startDate : "")
@@ -99,9 +99,9 @@ const TaskForm = (props: TaskFormProps) => {
     if(props.task){
       props.onSave(data, event, props?.task?.id)
     } else {
-      let newData = {
+      let newData:taskData = {
         description: description,
-        value: value,
+        value: parseFloat(value),
         occurence: occurence,
         startDate: startDate,
         endDate: endDate,
