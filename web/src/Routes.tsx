@@ -16,8 +16,7 @@ const Routes = () => {
   return (
     <Router>
 
-      <Route path="/home" page={HomePage} name="home" />
-
+      <Route path="/" page={HomePage} name="home" />
       <Set
         wrap={TasksLayout}
         title="Tasks"
