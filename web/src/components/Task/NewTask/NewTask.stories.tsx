@@ -1,12 +1,12 @@
 import type { ComponentMeta } from '@storybook/react'
-import NewTasks from 'src/components/NewTasks/NewTasks'
-import NewBonusTask from './NewTask'
+
+import NewTask from './NewTask'
 
 export function generated () {
-  return <NewBonusTask />
+  return <NewTask />
 }
 
 export default {
   title: 'Task/NewBonusTask',
-  component: NewTasks,
-} as ComponentMeta<typeof NewBonusTask>
+  component: NewTask,
+} as ComponentMeta<typeof NewTask>
