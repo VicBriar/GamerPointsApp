@@ -16,10 +16,10 @@ const CREATE_TASK_MUTATION = gql`
 `
 export function generateDailyRange(start:Date,end:Date):Date[] {
   let result: Date[] = [];
-  let shallowStart = new Date(start.valueOf());
-
-  for(let currentDate = shallowStart; currentDate.getUTCDate() <= end.getUTCDate(); currentDate.setUTCDate(currentDate.getUTCDate()+1)){
-    // console.log(`current date is; ${currentDate}, end is ${end}, result is ${result}`)
+  let shallowStart = new Date(start);
+  console.log("currentdate <= end is;",shallowStart, "<=", end)
+  for(let currentDate = new Date(start); currentDate <= end; currentDate.setDate(currentDate.getDate()+1)){
+    console.log(`current date is; ${currentDate}, end is ${end}, result is ${result}`)
     result.push(new Date(currentDate))
     // console.log(`and now result is; ${result}`)
   }
@@ -68,30 +68,30 @@ const NewBonusTask = () => {
         if(!(input.startDate || input.endDate)){
           alert("you must supply an end or start date for daily tasks!")
         }else {
-        const start = input.startDate ? dateFromFormStr(input.startDate) : dateFromFormStr(input.endDate)
-        const end = input.endDate  ? dateFromFormStr(input.endDate) : dateFromFormStr(input.startDate)
+        const start = input.startDate ? new Date(input.startDate) : new Date(input.endDate)
+        const end = input.endDate  ? new Date(input.endDate) : new Date(input.startDate)
         const range = generateDailyRange(start,end);
         const tasks: CreateTaskInput[] = []
-        //console.log(`start is: ${input.startDate}, end is; ${input.endDate}, occurence is; ${input.occurence},form end is; `,new FormData(event.target))
-               range.map((date) => {
+        console.log(`start is: ${input.startDate}, end is; ${input.endDate}, occurence is; ${input.occurence}, range is; ${range}`)
+          range.map((date) => {
           tasks.push({...input,
             startDate: date.toISOString(),
             endDate: date.toISOString(),
           })
         })
-        console.log("tasks is; ",tasks)
-        // tasks.map((task) => {
-        //   createTask({ variables: { input: task }})
-        // })
-        }
+        console.log(`input is; `,input,"tasks is; ",tasks)
+        tasks.map((task) => {
+          createTask({ variables: { input: task }})
+        })
+         }
         break;
       case Occurence.enum.weekly:
         console.log("weekly was submitted!")
         if(!(input.startDate)){
           alert("you must supply a start date for weekly tasks!")
          }else {
-        const start =  dateFromFormStr(input.startDate)
-        const end = input.endDate  ? dateFromFormStr(input.endDate) : (dateFromFormStr(input.startDate))
+        const start =  new Date(input.startDate)
+        const end = input.endDate  ? new Date(input.endDate) : (new Date(input.startDate))
         if(!input.endDate){
           end.setDate(end.getDate()+7)
         }

@@ -62,7 +62,7 @@ interface TaskFormProps {
 
 
 const TaskForm = (props: TaskFormProps) => {
-  
+
 
   const [description, setDescription] = useState( props.task ? props.task.description : "")
   const [value, setValue] = useState(props.task ? `${props.task.value}` : "0.00")
@@ -73,7 +73,7 @@ const TaskForm = (props: TaskFormProps) => {
   useEffect(
     () => {
       setEndDate(props.task ? props.task.endDate : calculateEndDate(occurence,startDate))
-    },[occurence]
+    },[occurence,startDate]
   )
 
 
@@ -107,7 +107,7 @@ const TaskForm = (props: TaskFormProps) => {
         endDate: dateFromFormStr(endDate).toISOString(),
       }
       props.onSave(newData,event)
-    }    
+    }
     // props.onSave(data, event, props?.task?.id)
   }
 
