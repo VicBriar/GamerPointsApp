@@ -28,9 +28,6 @@ const TasksLayout = ({
         <Link to={routes[createButtonTo]()} className="rw-button rw-button-green">
           <div className="rw-button-icon">+</div> {createButtonLabel}
         </Link>
-        {/* <Link to={routes[tasksButtonTo]()} className="rw-button rw-button-green">
-          <div className='rw-button-icon'>+</div>{tasksButtonLabel}
-        </Link> */}
       </header>
       <main className="rw-main">{children}</main>
     </div>
