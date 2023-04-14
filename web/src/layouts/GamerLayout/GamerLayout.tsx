@@ -3,7 +3,10 @@ type GamerLayoutProps = {
 }
 
 const GamerLayout = ({ children }: GamerLayoutProps) => {
-  return <>{children}</>
+  return <>
+    <h1>Gamer layout</h1>
+  {children}
+  </>
 }
 
 export default GamerLayout

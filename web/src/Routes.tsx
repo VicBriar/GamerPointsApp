@@ -11,12 +11,18 @@ import { Set, Router, Route } from '@redwoodjs/router'
 
 import TasksLayout from 'src/layouts/TasksLayout/TasksLayout'
 import NewTask from './components/Task/NewTask/NewTask'
+import GamerLayout from './layouts/GamerLayout/GamerLayout'
 
 const Routes = () => {
   return (
     <Router>
+      <Set
+        wrap={GamerLayout}
+        >
+           <Route path="/" page={HomePage} name="home" />
+           <Route notfound page={NotFoundPage} />
+        </Set>
 
-      <Route path="/" page={HomePage} name="home" />
       <Set
         wrap={TasksLayout}
         title="Tasks"
@@ -30,7 +36,7 @@ const Routes = () => {
         <Route path="/tasks/{id:Int}" page={TaskTaskPage} name="task" />
         <Route path="/tasks" page={TaskTasksPage} name="tasks" />
       </Set>
-      <Route notfound page={NotFoundPage} />
+
     </Router>
   )
 }
