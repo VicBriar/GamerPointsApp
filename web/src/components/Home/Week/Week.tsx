@@ -105,7 +105,7 @@ const Week = ({ tasks }:FindToDoTasks) => {
               break;
         }
 
-        }else if(task.occurence === Occurence.enum.daily) {
+        }else if(task.occurence === Occurence.enum.weekly) {
           result.week.push({
             ...task,
             startDate: formatDateForCard(task.startDate),
