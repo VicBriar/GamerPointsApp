@@ -9,27 +9,39 @@ import {
   DateField,
   InputFieldProps,
 } from '@redwoodjs/forms'
-import { useCallback, useState } from 'react'
+import { useState,useEffect } from 'react'
 import Occurence from 'src/occurence'
-import { OccurenceEnumType } from 'src/occurence'
-import type { EditTaskById, Redwood, UpdateTaskInput } from 'types/graphql'
+import type { EditTaskById, UpdateTaskInput } from 'types/graphql'
 import type { RWGqlError } from '@redwoodjs/forms'
-import Task from '../Task/Task'
 
+export function makeNewDate() {
+  const now = new Date()
+  now.setHours(0)
+  now.setMinutes(0)
+  now.setSeconds(0)
+  // console.log(new Date(now.getFullYear(),now.getMonth(),now.getDate()))
+  return new Date(now.getFullYear(),now.getMonth(),now.getDate(),now.getHours(),now.getMinutes(),now.getSeconds())
+}
+function addZero(str:number):string {
+  return ("0" + str).slice(-2)
+}
 
-
-export const formatDate = (value: string | void ):string => {
-  let date = new Date
+//format Date takes a date, (or makes one for today at midnight) and returns a string formatted for react components
+export const formatDate = (value: Date | void ):string => {
+  let date = makeNewDate()
   if(value){
     date = new Date(value);
   }
-    let ISOdate = date.toISOString();
-    let yearMonthDay = ISOdate.substring(0,10);
-    let arrayDate = yearMonthDay.split("")
-    let day = arrayDate.slice(8,10).join("")
-    let month = arrayDate.slice(5,7).join("")
-    let year = arrayDate.slice(0,4).join("")
-    return `${year}-${month}-${day}`
+    // return `${year}-${month}-${day}`
+    // console.log(`before formatting, date is ${date}. then it's month is;`,addZero(date.getMonth()))
+    return `${date.getFullYear()}-${addZero(date.getMonth()+1)}-${addZero(date.getDate())}`
+}
+//dateFromFormStr takes the string from a react component, and parses it into a new Date object
+export function dateFromFormStr(startDateStr:string): Date{
+  let startDateArr = startDateStr.split("-")
+    let month = parseInt(startDateArr[1])
+    let monthStr = addZero(month)
+    return new Date(`${startDateArr[0]},${monthStr},${startDateArr[2]}`)
 }
 
 
@@ -43,29 +55,26 @@ interface taskData {
 }
 interface TaskFormProps {
   task?: EditTaskById['task']
-  onSave: (data: UpdateTaskInput, id?: FormTask['id']) => void
+  onSave: (data: UpdateTaskInput, event?:React.BaseSyntheticEvent, id?: FormTask['id']) => void
   error: RWGqlError
   loading: boolean
 }
 
 
 const TaskForm = (props: TaskFormProps) => {
-
+  
 
   const [description, setDescription] = useState( props.task ? props.task.description : "")
   const [value, setValue] = useState(props.task ? props.task.value : 0.00)
   const [occurence, setOccurence] = useState(props.task ? props.task.occurence : "")
-  const [startDate, setStartDate] = useState(props.task ? props.task.startDate : formatDate((new Date()).toISOString()))
+  const [startDate, setStartDate] = useState(props.task ? props.task.startDate : formatDate)
+  const [endDate, setEndDate] = useState(props.task ? props.task.startDate : "")
 
-  function calculateEndDate () {
-    if(props.task){
-      return props.task.endDate
-    }
-    return setDefaultEndDate("",startDate)
-  }
-
-  const [endDate, setEndDate] = useState(calculateEndDate)
-  // console.log("end date is ",endDate)
+  useEffect(
+    () => {
+      setEndDate(props.task ? props.task.endDate : calculateEndDate(occurence,startDate))
+    },[occurence]
+  )
 
 
   function generateOccurences():JSX.Element {
@@ -84,30 +93,48 @@ const TaskForm = (props: TaskFormProps) => {
     </>);
   }
 
-  function onSubmit (data: FormTask) {
-    props.onSave(data, props?.task?.id)
+  function onSubmit (data: FormTask, event: React.BaseSyntheticEvent) {
+    event.preventDefault()
+
+    if(props.task){
+      props.onSave(data, event, props?.task?.id)
+    } else {
+      let newData = {
+        description: description,
+        value: value,
+        occurence: occurence,
+        startDate: startDate,
+        endDate: endDate,
+      }
+      props.onSave(newData,event)
+    }    
+    // props.onSave(data, event, props?.task?.id)
   }
 
-  function setDefaultEndDate(occurence: string = "not provided", startDateStr: string = null):string {
+  //startDateStr should be formatted for react
+  function calculateEndDate(occurence: string = "", startDateStr: string | null):string {
+    let localStartDate = makeNewDate();
 
-    let startDate = new Date();
-    if(!!startDateStr){
-      startDate = new Date(startDateStr);
+    if(startDateStr){
+      localStartDate = dateFromFormStr(startDateStr)
     }
+
     let endDate: Date;
     switch(occurence) {
       case Occurence.enum.daily:
         // console.log('daily selected')
-        endDate = startDate;
         break;
       case Occurence.enum.weekly:
         // console.log('weekly selected')
-        endDate = new Date(startDate.getUTCFullYear(),startDate.getUTCMonth(),startDate.getUTCDate() + 7);
+        endDate = makeNewDate()
+        endDate.setDate(endDate.getDate() + 7)
         break;
 
       case Occurence.enum.monthly:
         // console.log('monthly selected')
-        endDate = new Date(startDate.getUTCFullYear(),startDate.getUTCMonth() + 1,0);
+        endDate = makeNewDate();
+        endDate.setMonth(endDate.getMonth()+1)
+        endDate.setDate(0)
         break;
 
       case Occurence.enum.bonus:
@@ -120,12 +147,12 @@ const TaskForm = (props: TaskFormProps) => {
         return ""
     }
     // console.log("return date is ", formatDate(endDate.toISOString()))
-    return formatDate(endDate.toISOString());
+    return formatDate(endDate);
   }
 
   return (
     <div className="rw-form-wrapper">
-      <Form<FormTask> data-testid="form" onSubmit={onSubmit} error={props.error}>
+      <Form<FormTask> onSubmit={onSubmit} error={props.error}>
         <FormError
           error={props.error}
           wrapperClassName="rw-form-error-wrapper"
@@ -187,7 +214,7 @@ const TaskForm = (props: TaskFormProps) => {
           name="occurence"
           multiple = {false}
           value={occurence}
-          onChange={(evnt: React.FormEvent<HTMLSelectElement>) =>{ setOccurence(evnt.currentTarget.value); setEndDate(setDefaultEndDate(evnt.currentTarget.value,startDate))}}
+          onChange={(evnt: React.FormEvent<HTMLSelectElement>) => setOccurence(evnt.currentTarget.value)}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
           validation={
@@ -224,6 +251,7 @@ const TaskForm = (props: TaskFormProps) => {
           onChange={(evnt: React.FormEvent<HTMLInputElement>) => {setStartDate( evnt.currentTarget.value)}}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
+          required={true}
         />
 
         <FieldError name="startDate" className="rw-field-error" />
@@ -243,6 +271,7 @@ const TaskForm = (props: TaskFormProps) => {
           onChange={(evnt: React.FormEvent<HTMLInputElement>) => setEndDate(evnt.currentTarget.value)}
           className="rw-input"
           errorClassName="rw-input rw-input-error"
+          required={true}
         />
 
         <FieldError name="endDate" className="rw-field-error" />

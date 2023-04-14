@@ -4,7 +4,7 @@ import TaskForm, { formatDate } from '../TaskForm/TaskForm'
 
 import NewBonusTask from './NewBonusTask'
 import { standard } from './NewBonusTask.mock'
-import { generateDailyRange } from './NewBonusTask'
+import { generateDailyRange, generateWeeklyRange } from './NewBonusTask'
 
 describe('New Bonus Task', () => {
     it('renders heading', () => {
@@ -25,7 +25,7 @@ describe('New Bonus Task', () => {
         // render(<TaskForm error={null} onSave={onSave} loading={false} />)
         render(<NewBonusTask />)
         const saveBtn = screen.getByText("Save")
-        const form:HTMLFormElement = screen.getByTestId("form")
+        // const form:HTMLFormElement = screen.getByTestId("form")
 
         const description = (screen.getByLabelText("Description"));
         expect(description.getAttribute("value")).toBe("");
@@ -63,7 +63,7 @@ describe('New Bonus Task', () => {
 
     })
 
-    it('generateDailyRange generates an array of dates between start and end points', () => {
+    it('generateDailyRange generates an array of dates between start and end', () => {
         const start = new Date("2020-3-1");
         const end = new Date("2020-3-30");
         const dayAfter = new Date(start);
@@ -76,6 +76,21 @@ describe('New Bonus Task', () => {
         expect(result[0].getUTCDate()).toBe(start.getUTCDate())
         expect(result[29].getUTCDate()).toBe(end.getUTCDate())
         expect(result[1].toISOString()).toBe(dayAfter.toISOString())
-
     })
+
+    it('generateWeeklyRange generates an array of date every 7 days after start and before or on end', () => {
+        const start = new Date("2023-4-1");
+        const end = new Date("2023-4-30");
+        const weekAfter = new Date(start);
+        weekAfter.setDate(weekAfter.getUTCDate() + 7)
+        const result = generateWeeklyRange(start,end)
+
+        expect(typeof result).toBe("object")
+        expect(result.length).toBe(4)
+        //this proves start hasn't been mutated!
+        expect(start.getUTCDate()).toBe(new Date("2020-4-1").getUTCDate())
+        expect(result[0][0].getUTCDate()).toBe(start.getUTCDate())
+        expect(result[0][1].toISOString()).toBe(weekAfter.toISOString())
+    })
+
 })

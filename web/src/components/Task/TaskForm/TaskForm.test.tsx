@@ -2,40 +2,49 @@ import { render,screen,waitFor } from '@redwoodjs/testing/web'
 import userEvent from '@testing-library/user-event'
 import Task from '../Task/Task'
 
-import TaskForm, {formatDate} from './TaskForm'
+import TaskForm, {formatDate,makeNewDate,dateFromFormStr} from './TaskForm'
 import { standard } from './TaskForm.mock'
 
-function validWeeklyDate(start:Date,date:Date):boolean {
-    if((start.getUTCDate() - date.getUTCDate()) >= 0){
-        console.log("didn't pass first check, ", start.getUTCDate() - date.getUTCDate())
+function validWeeklyDate(start:Date,end:Date):boolean {
+    if(start > end || start.getDate() === end.getDate()){
+        // console.log("weekly didn't pass first check, ",start,">",end,"or",start.getDate(),"===",end.getDate())
       return false;
     }
-    return !!( ( ( date.getUTCDate()-start.getUTCDate() ) % 7 ) === 0 );
+    const difference = ( end.getDate()-start.getDate() )
+    const modulo = difference % 7
+    // console.log("start is; ",start,". end is; ",end,"differemce; ", difference,"modulo is ",0)
+    return ( modulo === 0 );
   }
 
 function validMonthlyDate(start:Date,date:Date):boolean {
-    if((start.getUTCDate() - date.getUTCDate()) >= 0){
+    if(start > date || start.getDate() === date.getDate()){
+        console.log("monthly didn't pass first check, start > date is; ",start,">",date,"and start.getDate === date.getDate is",start.getDate(),date.getDate())
       return false;
     }
-    const expected = new Date(date.getFullYear(),date.getMonth() + 1,0)
-    return (date.getUTCDate() === expected.getUTCDate());
+    const expected = makeNewDate()
+    expected.setMonth(expected.getMonth()+1)
+    expected.setDate(0)
+
+    // console.log(`date.getDate() === expected.getDate() is ${date.getDate()} === ${expected.getDate()}. (the date vs expected is; ${date} vs ${expected})`)
+    return (date.getDate() === expected.getDate());
   }
 
 describe('functions',() => {
-    it('validweeklydate returns false for enddates that are not a week away from startdate',() =>{
-        let today = new Date;
-        let end = new Date;
-        let endOfWeek = today.getUTCDate() + 7
-        end.setUTCDate(endOfWeek);
+    it('validweeklydate returns false for end dates that are not a week away from startdate',() =>{
+        let today = makeNewDate();
+        let end = makeNewDate()
+        end.setDate(end.getDate() + 7)
 
-        expect(today.getUTCDate()-today.getUTCDate()).toBe(0)
         expect(validWeeklyDate(today,today)).toBe(false);
         expect(validWeeklyDate(end,today)).toBe(false);
+        console.log("today, end is; ",today,", ",end)
         expect(validWeeklyDate(today,end)).toBe(true)
     })
     it('validmonthlydate returns false for endDates that are not a month away',() => {
-        let today = new Date;
-        let endOfMonth = new Date(today.getFullYear(),today.getMonth()+1,0);
+        let today = makeNewDate();
+        let endOfMonth = makeNewDate();
+        endOfMonth.setMonth(endOfMonth.getMonth()+1)
+        endOfMonth.setDate(0)
 
         expect(validMonthlyDate(today,today)).toBeFalsy()
         expect(validMonthlyDate(endOfMonth,today)).toBeFalsy()
@@ -102,12 +111,12 @@ describe('TaskForm', () => {
         await user.selectOptions(screen.getByRole('combobox'), "weekly")
         const startDate = (await screen.findByLabelText("Start date")).getAttribute("value")
         const endDate = (await screen.findByLabelText("End date")).getAttribute("value")
-        const startDateDate = new Date(startDate)
-        const endDateDate = new Date(endDate)
+        const start = dateFromFormStr(startDate)
+        const end = dateFromFormStr(endDate)
 
-        expect((new Date()).getUTCDate() === startDateDate.getUTCDate())
+        expect(makeNewDate().getDate()).toEqual(start.getDate())
         expect(await screen.findByDisplayValue("weekly")).not.toBeNull()
-        expect(validWeeklyDate(startDateDate,endDateDate)).toBeTruthy()
+        expect(validWeeklyDate(start,end)).toBeTruthy()
 
     })
     it('changes end date to one month after startdate on monthly occurence', async () => {
@@ -121,12 +130,12 @@ describe('TaskForm', () => {
         await user.selectOptions(screen.getByRole('combobox'), "monthly")
         const startDate = (await screen.findByLabelText("Start date")).getAttribute("value")
         const endDate = (await screen.findByLabelText("End date")).getAttribute("value")
-        const startDateDate = new Date(startDate)
-        const endDateDate = new Date(endDate)
+        const start = dateFromFormStr(startDate)
+        const end = dateFromFormStr(endDate)
 
-        expect((new Date()).getUTCDate() === startDateDate.getUTCDate())
+        expect((makeNewDate()).getDate() === start.getDate())
         expect(await screen.findByDisplayValue("monthly")).not.toBeNull()
-        expect(validMonthlyDate(startDateDate,endDateDate)).toBeTruthy()
+        expect(validMonthlyDate(start,end)).toBeTruthy()
 
     })
 })
