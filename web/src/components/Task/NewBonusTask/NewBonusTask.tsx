@@ -100,9 +100,10 @@ const NewBonusTask = () => {
 
         const range = generateWeeklyRange(start,end);
         const tasks: CreateTaskInput[] = []
-
+        console.log("typeof input.value is; ",typeof input.value)
         range.map((arr) => {
           tasks.push({...input,
+            value: parseFloat(input.value),
             startDate: arr[0].toISOString(),
             endDate: arr[1].toISOString(),
           })
@@ -115,6 +116,7 @@ const NewBonusTask = () => {
         break;
       case Occurence.enum.monthly:
         console.log("monthly was submitted")
+        toast.error("coming soon!")
         break;
     }
   }
